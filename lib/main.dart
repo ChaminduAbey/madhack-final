@@ -8,6 +8,7 @@ import 'package:client_app/services/user_service.dart';
 import 'package:client_app/ui/screens/add_room_screen.dart';
 import 'package:client_app/ui/screens/home_screen.dart';
 import 'package:client_app/ui/screens/login_screen.dart';
+import 'package:client_app/ui/screens/room_screen.dart';
 import 'package:client_app/ui/screens/signup_screen.dart';
 import 'package:client_app/ui/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
         SignupScreen.routeName: (context) => const SignupScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
         AddRoomScreen.routeName: (context) => const AddRoomScreen(),
+        RoomViewScreen.routeName: (context) => const RoomViewScreen(),
       },
     );
   }

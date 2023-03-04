@@ -10,4 +10,8 @@ class ApiEndpoints {
   static String getRoom({required String roomId}) {
     return "rooms/$roomId";
   }
+
+  static String getRooms() {
+    return "rooms/";
+  }
 }

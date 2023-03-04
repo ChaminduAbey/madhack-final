@@ -24,4 +24,10 @@ class RoomService {
     await firestoreFetchService.setOrUpdateDocument(
         path: ApiEndpoints.getRoom(roomId: room.id), data: room.toDocument());
   }
+
+  Future<List<Room>> getRooms() async {
+    return await firestoreFetchService.getDocuments<Room>(
+        path: ApiEndpoints.getRooms(),
+        fromDocument: (x) => Room.fromDocument(x));
+  }
 }

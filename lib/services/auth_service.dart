@@ -39,4 +39,12 @@ class AuthService {
       rethrow;
     }
   }
+
+  Future<void> signOut() async {
+    final googleSignIn = GoogleSignIn();
+    googleSignIn.disconnect();
+    googleSignIn.signOut();
+
+    await FirebaseAuth.instance.signOut();
+  }
 }

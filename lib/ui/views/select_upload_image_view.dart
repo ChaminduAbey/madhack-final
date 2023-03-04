@@ -71,6 +71,30 @@ class _SelectUploadImagesViewState extends State<SelectUploadImagesView> {
       );
     }
 
+    return SizedBox(
+      height: 200,
+      width: double.infinity,
+      child: ListView.builder(
+          itemCount: images.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () => selectImage(index),
+              child: Container(
+                height: 150,
+                width: 150,
+                alignment: Alignment.center,
+                child: images[index] == null
+                    ? Icon(Icons.upload_file)
+                    : _PreviewImage(
+                        blurHash: blurHashes[index]!,
+                        image: images[index]!,
+                      ),
+              ),
+            );
+          }),
+    );
+
     throw UnimplementedError();
   }
 

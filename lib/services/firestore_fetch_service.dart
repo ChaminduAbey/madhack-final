@@ -23,6 +23,21 @@ class FirestoreFetchService {
     }
   }
 
+  Future<List<T>> getDocuments<T>({
+    required String path,
+    required T Function(Map<String, dynamic> data) fromDocument,
+  }) async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection(path).get();
+
+      return snapshot.docs.map((e) => fromDocument(e.data())).toList();
+    } catch (e, s) {
+      log("GetDocuments :" + e.toString(), stackTrace: s);
+      rethrow;
+    }
+  }
+
   Future<void> setOrUpdateDocument<T>({
     required String path,
     required Map<String, dynamic> data,

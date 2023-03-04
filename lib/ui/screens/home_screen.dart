@@ -1,17 +1,16 @@
 import 'dart:developer';
 
-import 'package:client_app/api_endpoints.dart';
 import 'package:client_app/main.dart';
 import 'package:client_app/models/cdn_image.dart';
 import 'package:client_app/models/profile.dart';
 import 'package:client_app/providers/user_provider.dart';
 import 'package:client_app/services/auth_service.dart';
-import 'package:client_app/services/firestore_fetch_service.dart';
-import 'package:client_app/services/user_service.dart';
 import 'package:client_app/ui/views/image_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'add_room_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "/home";
@@ -48,9 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<UserProvider>(
         builder: (context, UserProvider userProvider, child) {
       return Scaffold(
-        floatingActionButton: userProvider.profile!.isLandlord
+        floatingActionButton: userProvider.profile.isLandlord
             ? FloatingActionButton.extended(
-                onPressed: () {},
+                onPressed: () {
+                  navigatorKey.currentState!.pushNamed(AddRoomScreen.routeName);
+                },
                 label: Text("Add Property"),
                 icon: Icon(Icons.add),
               )

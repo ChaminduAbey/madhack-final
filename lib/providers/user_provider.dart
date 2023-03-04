@@ -10,4 +10,13 @@ class UserProvider extends ChangeNotifier {
     _profile = profile;
     notifyListeners();
   }
+
+  List<Profile> _profiles = [];
+
+  List<Profile> get profiles => _profiles;
+
+  void setProfiles(List<Profile> profiles) {
+    _profiles = profiles;
+    notifyListeners();
+  }
 }

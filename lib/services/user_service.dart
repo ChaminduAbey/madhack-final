@@ -29,4 +29,10 @@ class UserService {
     await firestoreFetchService.setOrUpdateDocument(
         path: ApiEndpoints.getProfile(uid: uid), data: profile.toDocument());
   }
+
+  Future<List<Profile>> getProfiles() async {
+    return await firestoreFetchService.getDocuments<Profile>(
+        path: ApiEndpoints.getProfiles(),
+        fromDocument: (x) => Profile.fromDocument(x));
+  }
 }

@@ -62,6 +62,8 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorSchemeSeed: primaryColor,
           textTheme: GoogleFonts.poppinsTextTheme(),
+          scaffoldBackgroundColor: scaffoldBGColor,
+          appBarTheme: AppBarTheme(backgroundColor: scaffoldBGColor),
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
             backgroundColor: surfaceColor,
           )),

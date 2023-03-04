@@ -50,6 +50,6 @@ class AddRoomController {
       ownerUid: getIt.get<AuthService>().getFBUser().uid,
     );
 
-    await getIt.get<RoomService>().addRoom(room: room);
+    await getIt.get<RoomService>().addProperty(room: room);
   }
 }

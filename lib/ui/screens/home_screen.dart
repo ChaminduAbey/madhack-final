@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:client_app/constants/colors.dart';
 import 'package:client_app/controllers/home_controller.dart';
 import 'package:client_app/main.dart';
 import 'package:client_app/mixins/view_state_mixin.dart';
@@ -15,6 +16,7 @@ import 'package:client_app/ui/views/error_view.dart';
 import 'package:client_app/ui/views/image_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/property.dart';
@@ -82,50 +84,138 @@ class _HomeScreenState extends State<HomeScreen> with ViewStateMixin {
               )
             : isError
                 ? ErrorView()
-                : Center(
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Consumer<RoomProvider>(
-                          builder: (context, RoomProvider roomProvider, child) {
-                        final List<University> universities =
-                            roomProvider.universities;
-                        final List<Property> rooms = roomProvider.rooms;
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            for (var room in rooms)
-                              InkWell(
-                                onTap: () {
-                                  navigatorKey.currentState!.pushNamed(
-                                      ViewPropertyScreen.routeName,
-                                      arguments: ViewPropertyScreenArgs(
-                                          property: room));
-                                },
-                                child: Card(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      ImageWidget(
-                                        hash: room.images.first.blurhash,
-                                        imageUrl: room.images.first.url,
-                                        width: 200,
-                                        height: 200,
-                                      ),
-                                      Text(room.name),
-                                      Text(room.address),
-                                      Text(room.price.toString()),
-                                      Text(room.description),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                          ],
-                        );
-                      }),
-                    ),
+                : SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    padding: const EdgeInsets.only(
+                        left: 16.0, right: 16, top: 16, bottom: 64),
+                    child: Consumer<RoomProvider>(
+                        builder: (context, RoomProvider roomProvider, child) {
+                      final List<University> universities =
+                          roomProvider.universities;
+                      final List<Property> rooms = roomProvider.rooms;
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          for (var room in rooms) buildRoomCard(room),
+                        ],
+                      );
+                    }),
                   ),
       );
     });
+  }
+
+  Widget buildRoomCard(Property room) {
+    final List<Profile> profiles =
+        Provider.of<UserProvider>(context, listen: false).profiles;
+    final Profile ownerProfile =
+        profiles.where((element) => element.id == room.ownerUid).first;
+
+    final width = MediaQuery.of(context).size.width;
+
+    final heightOfImage = width * 2 / 3;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: InkWell(
+        onTap: () {
+          navigatorKey.currentState!.pushNamed(ViewPropertyScreen.routeName,
+              arguments: ViewPropertyScreenArgs(property: room));
+        },
+        child: Material(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Stack(
+            children: [
+              AspectRatio(
+                aspectRatio: 3 / 2,
+                child: ImageWidget(
+                    imageUrl: room.images.first.url,
+                    hash: room.images.first.blurhash),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: heightOfImage - 64,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                  color: Colors.white),
+                              padding: const EdgeInsets.all(2.0),
+                              child: Container(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: ImageWidget(
+                                    height: 80,
+                                    width: 80,
+                                    imageUrl: ownerProfile.photo.url,
+                                    hash: ownerProfile.photo.blurhash),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              ownerProfile.name,
+                              style: GoogleFonts.poppins(
+                                  color: darkColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18),
+                            )
+                          ],
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text("LKR ${room.price}",
+                                  style: GoogleFonts.poppins(
+                                      color: darkColor,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 24))
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(child: Text(room.description)),
+                        IgnorePointer(
+                          child: IconButton(
+                              style: IconButton.styleFrom(
+                                  backgroundColor: surfaceColor),
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.arrow_forward_ios,
+                                color: primaryColor,
+                              )),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -7,6 +7,7 @@ import 'package:client_app/models/profile.dart';
 import 'package:client_app/ui/screens/home_screen.dart';
 import 'package:client_app/ui/views/popups.dart';
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../views/select_upload_image_view.dart';
@@ -96,8 +97,13 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   final images = await controller.uploadImages();
 
-                  final Profile profile =
-                      Profile(photo: images.first, isLandlord: isLandlord);
+                  final User user = FirebaseAuth.instance.currentUser!;
+
+                  final Profile profile = Profile(
+                      photo: images.first,
+                      isLandlord: isLandlord,
+                      name: user.displayName ?? "",
+                      id: user.uid);
 
                   await _signupController.signup(profile: profile);
 

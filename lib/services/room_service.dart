@@ -20,14 +20,21 @@ class RoomService {
     return universities;
   }
 
-  Future<void> addRoom({required Property room}) async {
+  Future<void> addProperty({required Property room}) async {
     await firestoreFetchService.setOrUpdateDocument(
-        path: ApiEndpoints.getRoom(roomId: room.id), data: room.toDocument());
+        path: ApiEndpoints.getProperty(propertyId: room.id),
+        data: room.toDocument());
   }
 
-  Future<List<Property>> getRooms() async {
+  Future<List<Property>> getProperties() async {
     return await firestoreFetchService.getDocuments<Property>(
-        path: ApiEndpoints.getRooms(),
+        path: ApiEndpoints.getProperties(),
+        fromDocument: (x) => Property.fromDocument(x));
+  }
+
+  Future<Property> getProperty({required String propertyId}) async {
+    return await firestoreFetchService.getDocument<Property>(
+        path: ApiEndpoints.getProperty(propertyId: propertyId),
         fromDocument: (x) => Property.fromDocument(x));
   }
 }

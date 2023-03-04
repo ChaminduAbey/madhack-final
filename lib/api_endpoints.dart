@@ -7,11 +7,15 @@ class ApiEndpoints {
     return "universities/";
   }
 
-  static String getRoom({required String roomId}) {
-    return "rooms/$roomId";
+  static String getProperty({required String propertyId}) {
+    return "rooms/$propertyId";
   }
 
-  static String getRooms() {
+  static String getProperties() {
     return "rooms/";
+  }
+
+  static String getProfiles() {
+    return "profiles/";
   }
 }

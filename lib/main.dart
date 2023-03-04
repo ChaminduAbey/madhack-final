@@ -1,5 +1,8 @@
+import 'package:client_app/constants/colors.dart';
+import 'package:client_app/providers/user_provider.dart';
 import 'package:client_app/services/auth_service.dart';
 import 'package:client_app/services/firestore_fetch_service.dart';
+import 'package:client_app/services/user_service.dart';
 import 'package:client_app/ui/screens/home_screen.dart';
 import 'package:client_app/ui/screens/login_screen.dart';
 import 'package:client_app/ui/screens/signup_screen.dart';
@@ -7,6 +10,7 @@ import 'package:client_app/ui/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
@@ -14,11 +18,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const MyApp());
-
   getIt.registerLazySingleton<AuthService>(() => AuthService());
   getIt.registerLazySingleton<FirestoreFetchService>(
       () => FirestoreFetchService());
+
+  getIt.registerLazySingleton<UserProvider>(() => UserProvider());
+
+  getIt.registerLazySingleton<UserService>(() => UserService(
+        firestoreFetchService: getIt(),
+      ));
+
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => getIt<UserProvider>()),
+  ], child: const MyApp()));
 }
 
 final getIt = GetIt.instance;
@@ -33,8 +45,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          useMaterial3: true,
+          colorSchemeSeed: primaryColor,
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: surfaceColor,
+          )),
       initialRoute: SplashScreen.routeName,
       navigatorKey: navigatorKey,
       routes: {

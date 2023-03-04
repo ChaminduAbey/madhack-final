@@ -8,12 +8,12 @@ import '../exceptions/no_authenticated_exception.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<User> getFBUser() async {
+  User getFBUser() {
     if (_auth.currentUser == null) {
       throw NotAuthenticatedException();
     }
 
-    return await _auth.currentUser!;
+    return _auth.currentUser!;
   }
 
   Future<UserCredential> signInWithGoogle() async {

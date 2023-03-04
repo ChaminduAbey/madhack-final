@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "269970761110",
+    "project_id": "madhack-final",
+    "storage_bucket": "madhack-final.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269970761110:android:354ed3e7765acec59e69b7",
+        "android_client_info": {
+          "package_name": "com.example.client_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "269970761110-pdeaokut976uhrtbq2tpovkun40rc6k5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.client_app",
+            "certificate_hash": "11c92f59d04f0c808a8df1309645421a9991f709"
+          }
+        },
+        {
+          "client_id": "269970761110-26i348p2876gmf6vtn32sk58mk4e1emu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCftAxws-cPZvc2STElOSRySIfqh5kBHk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269970761110-14qkchfq9vmfceji5ka9prmktbi10l8r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "269970761110-e19hkpjn3khpc6n7e1ck2rgv3e3ni9oj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.clientApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

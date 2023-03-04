@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>269970761110-e19hkpjn3khpc6n7e1ck2rgv3e3ni9oj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.269970761110-e19hkpjn3khpc6n7e1ck2rgv3e3ni9oj</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC1pFfbBZ8fLc0RBCM3Hbh0YpqZbLd52tI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>269970761110</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.clientApp</string>
+	<key>PROJECT_ID</key>
+	<string>madhack-final</string>
+	<key>STORAGE_BUCKET</key>
+	<string>madhack-final.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:269970761110:ios:1f087c9b7953b5979e69b7</string>
+</dict>
+</plist>

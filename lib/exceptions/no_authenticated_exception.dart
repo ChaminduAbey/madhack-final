@@ -1,0 +1,1 @@
+class NotAuthenticatedException implements Exception {}

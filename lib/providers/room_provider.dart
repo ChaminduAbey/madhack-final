@@ -1,4 +1,4 @@
-import 'package:client_app/models/room.dart';
+import 'package:client_app/models/property.dart';
 import 'package:client_app/models/university.dart';
 import 'package:flutter/material.dart';
 
@@ -12,11 +12,11 @@ class RoomProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Room> _rooms = [];
+  List<Property> _rooms = [];
 
-  List<Room> get rooms => _rooms;
+  List<Property> get rooms => _rooms;
 
-  void setRooms(List<Room> rooms) {
+  void setRooms(List<Property> rooms) {
     _rooms = rooms;
     notifyListeners();
   }

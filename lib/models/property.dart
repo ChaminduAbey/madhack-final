@@ -1,7 +1,7 @@
 import 'package:client_app/models/cdn_image.dart';
 import 'package:client_app/models/faculty_room_time.dart';
 
-class Room {
+class Property {
   final String name;
   final String description;
   final String id;
@@ -18,7 +18,9 @@ class Room {
 
   final List<FacultyRoomTime> facultyRoomTimes;
 
-  Room({
+  final String ownerUid;
+
+  Property({
     required this.name,
     required this.description,
     required this.id,
@@ -29,10 +31,11 @@ class Room {
     required this.price,
     required this.address,
     required this.facultyRoomTimes,
+    required this.ownerUid,
   });
 
-  factory Room.fromDocument(Map<String, dynamic> data) {
-    return Room(
+  factory Property.fromDocument(Map<String, dynamic> data) {
+    return Property(
       name: data['name'],
       description: data['description'],
       id: data['id'],
@@ -47,6 +50,7 @@ class Room {
       facultyRoomTimes: (data['facultyRoomTimes'] as List<dynamic>)
           .map((e) => FacultyRoomTime.fromDocument(e))
           .toList(),
+      ownerUid: data['ownerUid'],
     );
   }
 
@@ -62,6 +66,7 @@ class Room {
       'price': price,
       'address': address,
       'facultyRoomTimes': facultyRoomTimes.map((e) => e.toDocument()).toList(),
+      'ownerUid': ownerUid,
     };
   }
 }

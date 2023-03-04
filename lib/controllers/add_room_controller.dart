@@ -1,5 +1,7 @@
-import 'package:client_app/models/room.dart';
+import 'package:client_app/models/property.dart';
 import 'package:client_app/models/university.dart';
+import 'package:client_app/providers/user_provider.dart';
+import 'package:client_app/services/auth_service.dart';
 import 'package:uuid/uuid.dart';
 
 import '../main.dart';
@@ -34,7 +36,7 @@ class AddRoomController {
       required List<FacultyRoomTime> facultyRoomTimes}) async {
     var uuid = const Uuid();
 
-    final Room room = Room(
+    final Property room = Property(
       name: name,
       description: description,
       id: uuid.v4(),
@@ -45,6 +47,7 @@ class AddRoomController {
       facultyRoomTimes: facultyRoomTimes,
       price: int.parse(price),
       address: address,
+      ownerUid: getIt.get<AuthService>().getFBUser().uid,
     );
 
     await getIt.get<RoomService>().addRoom(room: room);

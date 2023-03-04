@@ -1,5 +1,5 @@
 import '../main.dart';
-import '../models/room.dart';
+import '../models/property.dart';
 import '../models/university.dart';
 import '../providers/room_provider.dart';
 import '../services/room_service.dart';
@@ -24,7 +24,7 @@ class HomeController {
   }
 
   Future<void> getRooms() async {
-    final List<Room> rooms = await getIt.get<RoomService>().getRooms();
+    final List<Property> rooms = await getIt.get<RoomService>().getRooms();
 
     getIt.get<RoomProvider>().setRooms(rooms);
   }

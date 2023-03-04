@@ -9,7 +9,7 @@ import 'package:client_app/models/university.dart';
 import 'package:client_app/providers/room_provider.dart';
 import 'package:client_app/providers/user_provider.dart';
 import 'package:client_app/services/auth_service.dart';
-import 'package:client_app/ui/screens/room_screen.dart';
+import 'package:client_app/ui/screens/view_property_screen.dart';
 import 'package:client_app/ui/screens/splash_screen.dart';
 import 'package:client_app/ui/views/error_view.dart';
 import 'package:client_app/ui/views/image_widget.dart';
@@ -17,7 +17,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/room.dart';
+import '../../models/property.dart';
 import 'add_room_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> with ViewStateMixin {
                           builder: (context, RoomProvider roomProvider, child) {
                         final List<University> universities =
                             roomProvider.universities;
-                        final List<Room> rooms = roomProvider.rooms;
+                        final List<Property> rooms = roomProvider.rooms;
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -97,9 +97,9 @@ class _HomeScreenState extends State<HomeScreen> with ViewStateMixin {
                               InkWell(
                                 onTap: () {
                                   navigatorKey.currentState!.pushNamed(
-                                      RoomViewScreen.routeName,
-                                      arguments:
-                                          RoomViewScreenArgs(room: room));
+                                      ViewPropertyScreen.routeName,
+                                      arguments: ViewPropertyScreenArgs(
+                                          property: room));
                                 },
                                 child: Card(
                                   child: Column(

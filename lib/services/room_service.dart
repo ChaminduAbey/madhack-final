@@ -2,7 +2,7 @@ import 'package:client_app/api_endpoints.dart';
 import 'package:client_app/models/university.dart';
 import 'package:client_app/services/firestore_fetch_service.dart';
 
-import '../models/room.dart';
+import '../models/property.dart';
 
 class RoomService {
   final FirestoreFetchService firestoreFetchService;
@@ -20,14 +20,14 @@ class RoomService {
     return universities;
   }
 
-  Future<void> addRoom({required Room room}) async {
+  Future<void> addRoom({required Property room}) async {
     await firestoreFetchService.setOrUpdateDocument(
         path: ApiEndpoints.getRoom(roomId: room.id), data: room.toDocument());
   }
 
-  Future<List<Room>> getRooms() async {
-    return await firestoreFetchService.getDocuments<Room>(
+  Future<List<Property>> getRooms() async {
+    return await firestoreFetchService.getDocuments<Property>(
         path: ApiEndpoints.getRooms(),
-        fromDocument: (x) => Room.fromDocument(x));
+        fromDocument: (x) => Property.fromDocument(x));
   }
 }

@@ -5,12 +5,14 @@ class Profile {
   final bool isLandlord;
   final String name;
   final String id;
+  final String contactNo;
 
   Profile({
     required this.photo,
     required this.isLandlord,
     required this.name,
     required this.id,
+    required this.contactNo,
   });
 
   // from firebase document
@@ -20,6 +22,7 @@ class Profile {
       isLandlord: data['isLandlord'],
       name: data['name'],
       id: data['id'],
+      contactNo: data['contactNo'],
     );
   }
 
@@ -30,6 +33,7 @@ class Profile {
       'isLandlord': isLandlord,
       'name': name,
       'id': id,
+      'contactNo': contactNo,
     };
   }
 }

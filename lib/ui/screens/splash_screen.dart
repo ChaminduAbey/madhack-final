@@ -22,6 +22,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Center(
+          child: Hero(
+        tag: 'login-splash',
+        child: Image.asset('assets/graphics/NameTag_WithoutBG_Greenish.png'),
+      )),
+    );
   }
 }

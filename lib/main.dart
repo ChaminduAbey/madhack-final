@@ -8,6 +8,7 @@ import 'package:client_app/services/user_service.dart';
 import 'package:client_app/ui/screens/add_room_screen.dart';
 import 'package:client_app/ui/screens/home_screen.dart';
 import 'package:client_app/ui/screens/login_screen.dart';
+import 'package:client_app/ui/screens/update_profile_screen.dart';
 import 'package:client_app/ui/screens/view_property_screen.dart';
 import 'package:client_app/ui/screens/signup_screen.dart';
 import 'package:client_app/ui/screens/splash_screen.dart';
@@ -61,6 +62,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: primaryColor,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)))),
           textTheme: GoogleFonts.poppinsTextTheme(),
           scaffoldBackgroundColor: scaffoldBGColor,
           appBarTheme: AppBarTheme(backgroundColor: scaffoldBGColor),
@@ -76,6 +83,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (context) => const HomeScreen(),
         AddRoomScreen.routeName: (context) => const AddRoomScreen(),
         ViewPropertyScreen.routeName: (context) => const ViewPropertyScreen(),
+        UpdateProfileScreen.routeName: (context) => const UpdateProfileScreen(),
       },
     );
   }

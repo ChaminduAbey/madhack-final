@@ -59,13 +59,19 @@ class _SelectUploadImagesViewState extends State<SelectUploadImagesView> {
       return Column(
         children: [
           if (images.isNotEmpty && images[0] != null)
-            Container(
-              height: 200,
-              child: _PreviewImage(blurHash: blurHashes[0]!, image: images[0]!),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: _PreviewImage(
+                        blurHash: blurHashes[0]!, image: images[0]!)),
+              ),
             ),
           ElevatedButton(
             onPressed: () => selectImage(0),
-            child: const Text("Select Image"),
+            child: Text(images[0] != null ? "Change Image" : "Select Image"),
           ),
         ],
       );

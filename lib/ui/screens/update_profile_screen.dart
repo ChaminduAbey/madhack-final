@@ -4,6 +4,7 @@ import 'package:client_app/constants/colors.dart';
 import 'package:client_app/controllers/signup_controller.dart';
 import 'package:client_app/main.dart';
 import 'package:client_app/models/profile.dart';
+import 'package:client_app/providers/user_provider.dart';
 import 'package:client_app/services/auth_service.dart';
 import 'package:client_app/ui/screens/home_screen.dart';
 import 'package:client_app/ui/views/custom_loading_dialog.dart';
@@ -13,36 +14,40 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controllers/update_profile_controller.dart';
 import '../views/select_upload_image_view.dart';
 
-class SignupScreen extends StatefulWidget {
-  static const String routeName = '/signup';
-  const SignupScreen({Key? key}) : super(key: key);
+class UpdateProfileScreen extends StatefulWidget {
+  static const String routeName = '/update';
+  const UpdateProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
-  late Completer<SelectImagesViewController> selectImagesViewController =
-      Completer();
-  bool isLandlord = false;
-  final SignupController _signupController = SignupController();
+class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final UpdateProfileController _updateProfileController =
+      UpdateProfileController();
+
   @override
   void initState() {
-    User user = getIt.get<AuthService>().getFBUser();
-    _nameController.text = user.displayName ?? "";
+    Profile profile = getIt.get<UserProvider>().profile;
+    _nameController.text = profile.name;
+    _phoneController.text = profile.contactNo;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Update Profile"),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
@@ -51,12 +56,6 @@ class _SignupScreenState extends State<SignupScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Almost there",
-                    style: GoogleFonts.poppins(
-                        fontSize: 32, fontWeight: FontWeight.w600, height: 1)),
-                const SizedBox(
-                  height: 24,
-                ),
                 Text(
                   "Your Name",
                   style: GoogleFonts.poppins(
@@ -110,80 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Text(
-                  "Select a profile picture",
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500, fontSize: 24),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                SelectUploadImagesView(
-                  uploadFolder: "profile",
-                  maxImages: 1,
-                  onControllerReady: (controller) =>
-                      {selectImagesViewController.complete(controller)},
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Text(
-                  "Select account type",
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500, fontSize: 24),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Container(
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: CustomSlidingSegmentedControl<bool>(
-                      initialValue: isLandlord,
-                      fixedWidth: (MediaQuery.of(context).size.width - 40) / 2,
-                      children: {
-                        false: DefaultTextStyle(
-                            style: TextStyle(
-                              color: isLandlord ? primaryColor : Colors.white,
-                            ),
-                            child: Center(child: Text("Tenant"))),
-                        true: DefaultTextStyle(
-                            style: TextStyle(
-                              color: !isLandlord ? primaryColor : Colors.white,
-                            ),
-                            child: Center(child: Text("Landlord"))),
-                      },
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      thumbDecoration: BoxDecoration(
-                        color: primaryColor,
-                        borderRadius: BorderRadius.circular(6),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(.3),
-                            blurRadius: 4.0,
-                            spreadRadius: 1.0,
-                            offset: Offset(
-                              0.0,
-                              2.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                      customSegmentSettings:
-                          CustomSegmentSettings(highlightColor: Colors.white),
-                      onValueChanged: (v) {
-                        setState(() {
-                          isLandlord = v;
-                        });
-                      },
-                    ),
-                  ),
-                ),
+
                 const SizedBox(
                   height: 48,
                 ),
@@ -223,34 +149,28 @@ class _SignupScreenState extends State<SignupScreen> {
         return;
       }
 
-      final controller = await selectImagesViewController.future;
-
-      if (await controller.isImageSelected() == false) {
-        Popups.showSnackbar(
-            context: navigatorKey.currentContext!,
-            message: "Please select an image");
-        return;
-      }
-
       CustomLoadingDialog.show(navigatorKey.currentContext!,
-          message: "Signing up");
-
-      final images = await controller.uploadImages();
+          message: "Updating Profile. Please wait...");
 
       final User user = FirebaseAuth.instance.currentUser!;
 
+      final currentProfile = getIt.get<UserProvider>().profile;
+
       final Profile profile = Profile(
-          photo: images.first,
-          isLandlord: isLandlord,
+          photo: currentProfile.photo,
+          isLandlord: currentProfile.isLandlord,
           name: user.displayName ?? "",
           contactNo: _phoneController.text,
           id: user.uid);
 
-      await _signupController.signup(profile: profile);
+      await _updateProfileController.updateProfile(profile: profile);
 
       CustomLoadingDialog.hide(navigatorKey.currentContext!);
 
-      navigatorKey.currentState!.pushReplacementNamed(HomeScreen.routeName);
+      navigatorKey.currentState!.pop();
+
+      Popups.showSnackbar(
+          context: navigatorKey.currentContext!, message: "Profile updated");
     } catch (ex) {
       CustomLoadingDialog.hide(navigatorKey.currentContext!);
       Popups.showSnackbar(
